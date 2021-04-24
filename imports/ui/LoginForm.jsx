@@ -1,32 +1,38 @@
-import React, { useState } from 'react'
-import { Meteor } from 'meteor/meteor'
+import { Meteor } from 'meteor/meteor';
+import React, { useState } from 'react';
 
 export const LoginForm = () => {
-    const [values, setValues] = useState({
-        username: '', email: '', password: ''
-    })
-    const Login = () => {
-        return (
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label htmlFor="">Username</label>
-                    <input type="text" required onChange={handlechange('username')} name="username" value={username} placeholder="Username"/>
-                </div>
-                    <div className="form-group">
-                    <label htmlFor="">Email</label>
-                    <input type="email" required onChange={handlechange('email')} name="email" value={email} placeholder="Email"/>
-                </div>    <div className="form-group">
-                    <label htmlFor="">Password</label>
-                    <input type="password" required onChange={handlechange('password')} name="password" value={password} placeholder="Password"/>
-                </div>
-                <button>Login</button>
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
-            </form>
-        )
-    }
+    const submit = e => {
+        e.preventDefault();
+
+        Meteor.loginWithPassword(username, password);
+    };
     return (
-        <div>
+        <form onSubmit={submit} className="login-form">
+            <label htmlFor="username">Username</label>
 
-        </div>
-    )
-}
+            <input
+                type="text"
+                placeholder="Username"
+                name="username"
+                required
+                onChange={e => setUsername(e.target.value)}
+            />
+
+            <label htmlFor="password">Password</label>
+
+            <input
+                type="password"
+                placeholder="Password"
+                name="password"
+                required
+                onChange={e => setPassword(e.target.value)}
+            />
+
+            <button type="submit">Log In</button>
+        </form>
+    );
+};
